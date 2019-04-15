@@ -71,7 +71,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddContactToEmailSend.cs" />
+    <Compile Include="BaseWorkflowActivity.cs" />
     <Compile Include="ConvertPostedFormToWebEnquiry.cs" />
+    <Compile Include="GetEventParticipationFromId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

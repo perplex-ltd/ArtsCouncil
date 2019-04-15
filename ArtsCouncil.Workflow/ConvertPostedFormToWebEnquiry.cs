@@ -13,7 +13,7 @@ using Microsoft.Xrm.Sdk.Workflow;
 
 namespace ArtsCouncil.Workflow
 {
-    public sealed class ConvertPostedFormToWebEnquiry : CodeActivity
+    public sealed class ConvertPostedFormToWebEnquiry : BaseWorkflowActivity
     {
         /// <summary>
         /// The logical name of the Web Enquiry entity.
@@ -32,28 +32,21 @@ namespace ArtsCouncil.Workflow
         [ReferenceTarget(WebEnquiryName)]
         public OutArgument<EntityReference> WebEnquiry { get; set; }
 
-        private ITracingService tracingService;
         /// <summary>
         /// Creates a Web Enquiry record based on the <see cref="PostedForm"/>.
         /// </summary>
         /// <param name="context"></param>
-        protected override void Execute(CodeActivityContext context)
+        protected override void ExecuteActivity(CodeActivityContext context)
         {
-            // Retrieve the CrmService so that we can retrieve the loan application
-            tracingService = context.GetExtension<ITracingService>();
-            IWorkflowContext wfContext = context.GetExtension<IWorkflowContext>();
-            IOrganizationServiceFactory serviceFactory = context.GetExtension<IOrganizationServiceFactory>();
-            IOrganizationService service = serviceFactory.CreateOrganizationService(wfContext.InitiatingUserId);
-
             // Get and check entity reference
             EntityReference postedForm = PostedForm.Get(context);
             if (postedForm == null)
             {
                 throw new InvalidOperationException("Posted Form has not been specified", new ArgumentNullException("Posted Form"));
             }
-            tracingService.Trace("Posted Form {0}", postedForm);
-            var targetFields = new List<AttributeMetadata>(EnumerateWebEnquiryFields(service));
-            var postedFields = new List<KeyValuePair<string, string>>(EnumeratePostedFields(service, postedForm.Id));
+            TracingService.Trace("Posted Form {0}", postedForm);
+            var targetFields = new List<AttributeMetadata>(EnumerateWebEnquiryFields(Service));
+            var postedFields = new List<KeyValuePair<string, string>>(EnumeratePostedFields(Service, postedForm.Id));
             Entity webEnquiry = new Entity(WebEnquiryName);
             foreach (var postedField in postedFields)
             {
@@ -65,7 +58,7 @@ namespace ArtsCouncil.Workflow
                         var targetValue = ConvertValue(postedField.Value, targetField.AttributeType.Value);
                         if (targetValue != null)
                         {
-                            tracingService.Trace("Setting value {0}", targetValue);
+                            TracingService.Trace("Setting value {0}", targetValue);
                             webEnquiry[targetField.LogicalName] = targetValue;
                         }
                     }
@@ -74,9 +67,9 @@ namespace ArtsCouncil.Workflow
             // add other things
             webEnquiry["senton"] = DateTime.Now;
             // go on and create it
-            tracingService.Trace("Creating web enquiry...");
-            Guid id = service.Create(webEnquiry);
-            tracingService.Trace("Web Enquiry created ({0})", id);
+            TracingService.Trace("Creating web enquiry...");
+            Guid id = Service.Create(webEnquiry);
+            TracingService.Trace("Web Enquiry created ({0})", id);
             WebEnquiry.Set(context, new EntityReference(WebEnquiryName, id));
         }
 
@@ -123,7 +116,7 @@ namespace ArtsCouncil.Workflow
 
         private IEnumerable<KeyValuePair<string, string>> EnumeratePostedFields(IOrganizationService service, Guid postedFormId)
         {
-            tracingService.Trace("EnumberatePostedFields");
+            TracingService.Trace("EnumberatePostedFields");
             // Query posted fields referenced in Posted Form.
             string fetchXml = @"
 <fetch>
@@ -147,7 +140,7 @@ namespace ArtsCouncil.Workflow
                     var result = new KeyValuePair<string, string>(
                         (string)e.GetAttributeValue<AliasedValue>("field.cdi_fieldid").Value,
                         (string)e["cdi_value"]);
-                    tracingService.Trace("Enumerating posted field {0} ({1})", result.Key, result.Value);
+                    TracingService.Trace("Enumerating posted field {0} ({1})", result.Key, result.Value);
                     yield return result;
                 }
             }
@@ -160,7 +153,7 @@ namespace ArtsCouncil.Workflow
         /// <returns></returns>
         private IEnumerable<AttributeMetadata> EnumerateWebEnquiryFields(IOrganizationService service)
         {
-            tracingService.Trace("EnumerateWebEnquiry Fields...");
+            TracingService.Trace("EnumerateWebEnquiry Fields...");
             RetrieveEntityRequest req = new RetrieveEntityRequest
             {
                 EntityFilters = EntityFilters.Attributes,
@@ -170,7 +163,7 @@ namespace ArtsCouncil.Workflow
             EntityMetadata currentEntity = res.EntityMetadata;
             foreach (AttributeMetadata attribute in currentEntity.Attributes)
             {
-                tracingService.Trace("Web Enquiry field {0}", attribute);
+                TracingService.Trace("Web Enquiry field {0}", attribute);
                 yield return attribute;
             }
         }
