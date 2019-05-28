@@ -2,14 +2,13 @@ var ace = ace || {};
 ace.organisationForm = function() {
 
     var setupProjectsGrid = function(executionContext) {
-        debugger;
         var NAME_SGPROJECTS = "sgProjects";
         //You need the code below because using SetParameter in formContext.getControl("Credit_Performance") will not work.
         var subGrid = window.parent.document.getElementById(NAME_SGPROJECTS);
         if (subGrid == null || subGrid.control == null) {
             setTimeout( () => { setupProjectsGrid(executionContext)}, 1000);
+            return;
         }
-        var subGrid = subGrid.control;
 
         var formContext = executionContext.getFormContext();
         var accountId = formContext.data.entity.getId();
@@ -35,14 +34,13 @@ ace.organisationForm = function() {
             '</link-entity>' +
             '</entity>' +
         '</fetch>';
-        
         subGrid.control.SetParameter("fetchXml", fetchXml);
         subGrid.control.refresh();
 
     };
 
     return {
-        //ace.organisationForm.setupProjectsGrid
+        //ace.organisationForm.setupProjectsGrid(executionContext)
         setupProjectsGrid: setupProjectsGrid
     };
 }();

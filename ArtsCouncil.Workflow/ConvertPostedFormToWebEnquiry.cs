@@ -65,6 +65,8 @@ namespace ArtsCouncil.Workflow
                 }
             }
             // add other things
+            var postedFormEntity = Service.Retrieve(postedForm.LogicalName, postedForm.Id, new ColumnSet(new string[] { "cdi_contactid" }));
+            webEnquiry["ace_senderid"] = postedFormEntity["cdi_contactid"];
             webEnquiry["senton"] = DateTime.Now;
             // go on and create it
             TracingService.Trace("Creating web enquiry...");

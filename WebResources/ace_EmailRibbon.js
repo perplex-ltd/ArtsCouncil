@@ -30,15 +30,18 @@ ace.emailRibbon = function() {
         Xrm.WebApi.online.execute(ace_CreateCaseFromEmailRequest).then(
             function success(result) {
                 if (result.ok) {
-                    var results = JSON.parse(result.responseText);
-                    var caseId = results.incidentid;
-                    var entityFormOptions = {};
-                    entityFormOptions["entityName"] = "incident";
-                    entityFormOptions["entityId"] = caseId;
+                    debugger;
+                    result.json().then(r => {
+                        debugger;
+                        
+                        var caseId = r.incidentid;
+                        var entityFormOptions = {};
+                        entityFormOptions["entityName"] = "incident";
+                        entityFormOptions["entityId"] = caseId;
 
-                    // Open the form.
-                    Xrm.Navigation.openForm(entityFormOptions);
-
+                        // Open the form.
+                        Xrm.Navigation.openForm(entityFormOptions);
+                    });
                 }
             },
             function(error) {
