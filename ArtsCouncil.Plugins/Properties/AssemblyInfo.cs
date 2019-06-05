@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ArtsCouncil.Workflow")]
+[assembly: AssemblyTitle("ArtsCouncil.Plugins")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ArtsCouncil.Workflow")]
+[assembly: AssemblyProduct("ArtsCouncil.Plugins")]
 [assembly: AssemblyCopyright("Copyright © Perplex Ltd 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7e37eefb-d214-4bcd-89f7-2d684ebe4b0f")]
+[assembly: Guid("623bf453-74f1-4ea3-a1d0-34abed722ccf")]
 
 // Version information for an assembly consists of the following four values:
 //

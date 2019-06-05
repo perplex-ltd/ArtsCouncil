@@ -1,0 +1,80 @@
+/* Begin DCN custom stylez */
+
+body {
+    font-family:"Verdana" !important;
+    font-size:13px !important;    
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: #6639B7;
+  border: none;
+  color: white !important;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin-bottom: 30px !important;
+  cursor: pointer;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 780px) {
+
+    input[type=button], input[type=submit], input[type=reset] {
+        width: 680px !important;
+    }
+
+    .mainDiv {
+        padding-left: 10vw !important;
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+    }
+    body {
+        /*background-color: #ACC0C6;*/
+        background-color: #e0e0e0;
+    }
+    #header{
+        margin-left: -10px;
+        margin-right: -10px;
+        background-image: url("https://app-eu.clickdimensions.com/blob/artscouncilorguk-adzt4/files/surveyheader700.jpg");
+        height: 104px;
+    }
+    form {
+        background-color: white;
+        max-width: 700px !important;
+    }
+    .responsiveRow {
+        margin-left: 10px;
+    }
+}
+
+@media (min-width: 530px) {
+    span {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+@media (min-width: 530px) and (max-width: 779px) {
+    #header{
+        background-image: url("https://app-eu.clickdimensions.com/blob/artscouncilorguk-adzt4/files/surveyheader460.png");
+        width:460px;
+        height: 79px;
+    }
+}
+
+@media (min-width: 350px) and (max-width: 779px) {
+    input[type=button], input[type=submit], input[type=reset] {
+        width: 300px !important;
+    }
+}
+
+@media (min-width: 200px) and (max-width: 529px) {
+    #header{
+        background-image: url("https://app-eu.clickdimensions.com/blob/artscouncilorguk-adzt4/files/surveyheader200.png") ;
+        width:200px;
+        height: 34px;
+    }
+}    
+/* End DCN custom stylez */
+
