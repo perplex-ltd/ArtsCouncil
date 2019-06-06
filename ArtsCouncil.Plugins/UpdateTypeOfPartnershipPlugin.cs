@@ -61,8 +61,7 @@ namespace ArtsCouncil.Workflow
                         (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
                     service = serviceFactory.CreateOrganizationService(context.UserId);
 
-                    // Prepare and retrieve partnership record ids
-                    var allPartnershipTypes = PreparePartnershipTypeRecords();
+                    var optionSetLabels = GetOptionSetLabels();
                     // Get multi option set value and linked records
                     var targetOptions = (OptionSetValueCollection)target.Attributes["ace_typeofpartnership"];
                     // attribute returns null if it's empty, we'd rather take an empty collection 🍵
@@ -70,35 +69,33 @@ namespace ArtsCouncil.Workflow
                     {
                         targetOptions = new OptionSetValueCollection();
                     }
-                    var linkedOptions = RetrieveLinkedPartnershipTypeRecords(target).ToList<OptionSetValue>();
+                    var linkedOptions = RetrieveLinkedPartnershipTypeRecords(target).ToList<Entity>();
                     // Compare 
-                    IList<EntityReference> partnershipTypesToAdd = new List<EntityReference>();
-                    IList<EntityReference> partnershipTypesToRemove = new List<EntityReference>();
                     // find options in target but not linked
                     foreach (var o in targetOptions)
                     {
-                        if (!linkedOptions.Contains(o))
+                        var existingValues = from e in linkedOptions
+                                            select (OptionSetValue)e["ace_value"];
+                        if (!existingValues.Contains(o))
                         {
-                            tracingService.Trace("Need to add an option: {0}", o.Value);
-                            partnershipTypesToAdd.Add(new EntityReference("ace_partnershiptype", allPartnershipTypes[o.Value]));
+                            tracingService.Trace("Adding option: {0}", o.Value);
+                            var newRecord = new Entity("ace_partnershiptype");
+                            newRecord["ace_name"] = optionSetLabels[o.Value];
+                            newRecord["ace_value"] = o;
+                            newRecord["ace_caseid"] = target.ToEntityReference();
+                            Guid id = service.Create(newRecord);
                         }
                     }
                     // find linked options not in target
-                    foreach (var o in linkedOptions)
+                    foreach (var e in linkedOptions)
                     {
-                        if (!targetOptions.Contains(o))
+                        var option = ((OptionSetValue)e["ace_value"]);
+                        if (!targetOptions.Contains(option))
                         {
-                            tracingService.Trace("Need to remove an option: {0}", o.Value);
-                            partnershipTypesToRemove.Add(new EntityReference("ace_partnershiptype", allPartnershipTypes[o.Value]));
+                            tracingService.Trace("Removing option: {0}", option.Value);
+                            service.Delete(e.LogicalName, e.Id);
                         }
                     }
-                    var relationship = new Relationship("ace_ace_partnershiptype_incident");
-                    // associate partnership types to add
-                    tracingService.Trace("Associating {0} records", partnershipTypesToAdd.Count);
-                    service.Associate("incident", target.Id, relationship, new EntityReferenceCollection(partnershipTypesToAdd));
-                    // disassociate partnership types to remove
-                    tracingService.Trace("Disassociating {0} records", partnershipTypesToRemove.Count);
-                    service.Disassociate("incident", target.Id, relationship, new EntityReferenceCollection(partnershipTypesToRemove));
                     tracingService.Trace("Done!");
                 }
                 catch (FaultException<OrganizationServiceFault> ex)
@@ -114,69 +111,11 @@ namespace ArtsCouncil.Workflow
             }
         }
 
-        private IDictionary<int, Guid> PreparePartnershipTypeRecords()
-        {
-            // Get all option set and values
-            var options = GetOptionSetMetaData();
-            // prepare result list
-            var partnershipTypeRecords = new Dictionary<int, Guid>(options.Count);
-            // Get all linked records
-            var results = service.RetrieveMultiple(new QueryExpression()
-            {
-                EntityName = "ace_partnershiptype",
-                ColumnSet = new ColumnSet("ace_name", "ace_value"),
-                PageInfo = new PagingInfo()
-                {
-                    ReturnTotalRecordCount = true
-                }
-            });
-            tracingService.Trace("Got {0} existing partnership type records", results.TotalRecordCount);
-            // update records with wrong names
-            foreach (var e in results.Entities)
-            {
-                var option = options.FirstOrDefault(o =>
-                {
-                    return e["ace_value"] != null && ((OptionSetValue)e["ace_value"]).Value == o.Value.Value;
-                });
-                if (option == null) // Option doesn't exist anymore, delete...
-                {
-                    tracingService.Trace("Deleting record {0}", e["ace_name"]);
-                    service.Delete(e.LogicalName, e.Id);
-                }
-                else if (option.Label.UserLocalizedLabel.Label != (string)e["ace_name"]) //Record's label is out of date, update
-                {
-                    tracingService.Trace("Updating record {1} (was {0})", e["ace_name"], option.Label.UserLocalizedLabel.Label);
-                    e["ace_name"] = option.Label.UserLocalizedLabel.Label;
-                    service.Update(e);
-                    partnershipTypeRecords.Add(option.Value.Value, e.Id);
-                }
-                else
-                {
-                    tracingService.Trace("Leave record {0}", e["ace_name"]);
-                    partnershipTypeRecords.Add(option.Value.Value, e.Id);
-                }
-            }
-            // create missing records
-            foreach (var o in options)
-            {
-                var record = results.Entities.FirstOrDefault(e =>
-                {
-                    return e["ace_value"] != null && ((OptionSetValue)e["ace_value"]).Value == o.Value.Value;
-                });
-                if (record == null) // record doesn't exist, create
-                {
-                    tracingService.Trace("Creating record {0}", o.Label.UserLocalizedLabel.Label);
-                    var newRecord = new Entity("ace_partnershiptype");
-                    newRecord["ace_name"] = o.Label.UserLocalizedLabel.Label;
-                    newRecord["ace_value"] = new OptionSetValue(o.Value.GetValueOrDefault());
-                    Guid id = service.Create(newRecord);
-                    partnershipTypeRecords.Add(o.Value.Value, id);
-                }
-            }
-            return partnershipTypeRecords;
-        }
-
-        private OptionMetadataCollection GetOptionSetMetaData()
+        /// <summary>
+        /// Retrievs a dictionary with the option set values and labels.
+        /// </summary>
+        /// <returns></returns>
+        private IDictionary<int, string> GetOptionSetLabels()
         {
             var retrieveRequest = new RetrieveOptionSetRequest
             {
@@ -184,21 +123,26 @@ namespace ArtsCouncil.Workflow
             };
             tracingService.Trace("Retrieving option set metadata");
             var response = (RetrieveOptionSetResponse)service.Execute(retrieveRequest);
-            return ((OptionSetMetadata)response.OptionSetMetadata).Options;
-
+            var labels = new Dictionary<int, string>();
+            foreach (var o in ((OptionSetMetadata)response.OptionSetMetadata).Options)
+            {
+                if (o.Value != null)
+                {
+                    labels.Add(o.Value.GetValueOrDefault(), o.Label.UserLocalizedLabel.Label);
+                }
+            }
+            return labels;
         }
 
-        private IEnumerable<OptionSetValue> RetrieveLinkedPartnershipTypeRecords(Entity target)
+        private IEnumerable<Entity> RetrieveLinkedPartnershipTypeRecords(Entity target)
         {
             string query = @"
 <fetch>
   <entity name='ace_partnershiptype' >
     <attribute name='ace_value' />
-    <link-entity name='ace_ace_partnershiptype_incident' from='ace_partnershiptypeid' to='ace_partnershiptypeid' intersect='true' >
-      <filter>
-        <condition attribute='incidentid' operator='eq' value='{0}' />
-      </filter>
-    </link-entity>
+    <filter>
+      <condition attribute='ace_caseid' operator='eq' value='{0}' />
+    </filter>
   </entity>
 </fetch>";
             query = string.Format(query, target.Id.ToString("D"));
@@ -207,7 +151,7 @@ namespace ArtsCouncil.Workflow
             foreach (var e in results.Entities)
             {
                 tracingService.Trace("  Linked record {0}", ((OptionSetValue)e["ace_value"]).Value);
-                yield return (OptionSetValue)e["ace_value"];
+                yield return e;
             }
         }
     }
