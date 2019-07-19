@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtsCouncil.Workflow", "Art
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtsCouncil.Plugins", "ArtsCouncil.Plugins\ArtsCouncil.Plugins.csproj", "{623BF453-74F1-4EA3-A1D0-34ABED722CCF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{98F88109-33AA-4393-A1B0-0256E9F7B0EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{623BF453-74F1-4EA3-A1D0-34ABED722CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{623BF453-74F1-4EA3-A1D0-34ABED722CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{623BF453-74F1-4EA3-A1D0-34ABED722CCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98F88109-33AA-4393-A1B0-0256E9F7B0EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98F88109-33AA-4393-A1B0-0256E9F7B0EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98F88109-33AA-4393-A1B0-0256E9F7B0EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98F88109-33AA-4393-A1B0-0256E9F7B0EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

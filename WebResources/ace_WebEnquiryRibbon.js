@@ -50,6 +50,10 @@ ace.webEnquiryRibbon = function() {
         );
 
     };
+    
+    var enableConvertToCase = function(activityId) {
+        
+    };
 
     return {
         convertToCase: convertToCase
