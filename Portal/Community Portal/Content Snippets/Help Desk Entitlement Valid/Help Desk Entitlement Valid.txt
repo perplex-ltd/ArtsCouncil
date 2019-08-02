@@ -1,0 +1,1 @@
+<h3>Support Plan</h3><p>Plan Name: <strong>{0}</strong></p><p>Prepaid Incidents Available: <strong>{1}</strong></p><p>Upon completion of opening this new support request your <strong>Prepaid Incidents Available</strong> will be reduced by <strong>{2}</strong>.</p>

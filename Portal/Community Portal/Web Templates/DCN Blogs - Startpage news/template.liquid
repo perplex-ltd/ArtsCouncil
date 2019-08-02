@@ -1,0 +1,22 @@
+{% assign count = count | default: 3 %}
+{% assign languagecode = website.selected_language.code %}
+<!-- assign posts = blogs.posts | where: 'ace_featured', true | paginate: 0,4 -->
+{% assign p1 = blogs['News & Announcements'].posts %}
+{% assign posts = p1.all | where: 'ace_featured', true | paginate: 0,count %}
+
+{% if posts %}
+
+  {% for post in posts %}
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title | escape }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ post.publish_date | date: 'd/MM/yyyy' | escape }}</h6>
+        <div class="card-text">
+          {{ post.adx_summary }}
+        </div>
+        <a href="{{ post.url | escape }}" class="card-link">Continue reading...</a>
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}

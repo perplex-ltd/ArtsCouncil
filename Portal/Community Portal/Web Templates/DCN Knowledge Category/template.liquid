@@ -1,0 +1,134 @@
+{% extends 'DCN Layout 2 Column' %}
+
+{% block breadcrumbs %}
+  {% assign categoryid = request.params['id'] %}
+  
+  {% if categoryid %}
+    {% assign category = knowledge.categories | category_number: categoryid %}
+    {% if category %}
+      {% assign pagetitle = category.title %}
+      {% assign categoryguid = category.categoryid %}
+    {% else %}
+      {% assign pagetitle = resx["Knowledge_Article_Unavailable"] %}
+    {% endif %}
+  {% endif%}
+  {% include 'Breadcrumbs' title: pagetitle %}
+{% endblock %}
+
+{% block title %}
+  {% include 'Page Header' title: pagetitle %}
+{% endblock %}
+
+{% block main %}
+  {% include 'Page Copy' %}
+
+  {% assign category_url = sitemarkers['Category'].url %}
+  {% assign article_url = sitemarkers['Article'].url %}
+  
+  {% assign portallanguagecode = website.selected_language.code %}
+  
+  {% if categoryguid %}
+    {% fetchxml knowledgearticlecategory_query %}
+      <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">
+        <entity name="knowledgearticle">
+          <attribute name="articlepublicnumber" />
+          <attribute name="knowledgearticleid" />
+          <attribute name="title" />
+          <attribute name="description" />
+          <attribute name="ace_skilllevel" />
+          <attribute name="ace_pintotop" />
+          <attribute name="ace_readingtime" />
+          <order attribute="ace_pintotop" descending="true" />
+          <order attribute="publishon" descending="true" />
+          <filter type="and">
+            <condition attribute="statuscode" operator="eq" value="7" />
+            <condition attribute="isrootarticle" operator="eq" value="0" />
+            <condition attribute="isinternal" operator="eq" value="0" />
+          </filter>
+          <link-entity name="knowledgearticlescategories" from="knowledgearticleid" to="knowledgearticleid" visible="false" intersect="true">         
+              <filter type="and">
+                <condition attribute="categoryid" operator="eq" value="{{ categoryguid }}" />
+              </filter>         
+          </link-entity>
+          <link-entity name="adx_webfile" from="adx_webfileid" to="ace_leadimageid" link-type="outer" alias="li">
+            <attribute name="adx_partialurl" />
+          </link-entity>
+          <link-entity name="systemuser" from="systemuserid" to="primaryauthorid" alias="ar" >
+            <attribute name="fullname" />
+          </link-entity>
+          {% if portallanguagecode %}
+          <link-entity name="languagelocale" from="languagelocaleid" to="languagelocaleid" alias="ad">
+              <filter type="and">
+                <condition attribute="code" operator="eq" value="{{ portallanguagecode}}" />
+              </filter>
+            </link-entity>
+          {% endif %}
+        </entity>
+      </fetch>
+    {% endfetchxml %}
+    
+    {% assign articles = knowledgearticlecategory_query.results.entities %}
+    {% if articles.size > 0 %}
+      <ul class="list-group unstyled">
+        {% for article in articles %}
+          {% if article.ace_pintotop == 1 %}
+          <li class="list-group-item" style="border-width: 3px">
+          {% else %}
+          <li class="list-group-item">
+          {% endif %}
+            <a href="{{ article_url }}?id={{ article.articlepublicnumber }}" class="title">{{ article.title | escape }}</a>
+            <span class="badge badge-primary badge-pill">{{ article.ace_skilllevel.label }}</span>
+            {% if article.ace_readingtime == 1 %}
+                <span class="badge badge-primary badge-pill">{{ article.ace_readingtime }} min read</span>
+            {% elsif article.ace_readingtime > 1 %}
+                <span class="badge badge-primary badge-pill">{{ article.ace_readingtime }} mins read</span>
+            {% endif %}
+            <p>{% include 'DCN Bookmark article' articlenumber: article.articlepublicnumber %}</p>
+            <p>{{ article['ar.fullname'] }}</p>
+            <p class="description">
+            {% if article['li.adx_partialurl'] %}
+              <img src="/{{ article['li.adx_partialurl'] }}" width="100px" />
+            {% endif %}
+            {{ article.description | escape }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
+    {% include 'Category - Related Categories' categoryguid: categoryguid %}
+  {% else %}
+    <div class="col-md-12">
+  <div class="alert alert-block alert-danger">
+   {% editable snippets "KnowledgeManagement/ArticleUnavailableMessage" %}
+  </div>
+ </div>
+  {% endif %}
+{% endblock %}
+
+{% block aside %}
+    
+  {% assign categories = knowledge.categories | top_level: 0 %}
+  {% if categories %}
+    <div class="sidebar">
+        <div class="content-panel panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                Categories
+                </h4>
+            </div>
+
+            <div class="panel-body">
+              {% for category in categories %}
+                <div>  
+  <a href="{{ category_url | add_query: 'id', category.categorynumber }}" class="btn btn-action-home btn-lg-home">{{ category.title }}</a>
+                </div>
+              {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+  {% endif %}
+
+
+{% endblock %}

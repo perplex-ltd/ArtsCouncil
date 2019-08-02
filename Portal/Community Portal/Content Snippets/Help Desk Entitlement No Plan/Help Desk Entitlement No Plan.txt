@@ -1,0 +1,1 @@
+<h3>Support Plan</h3><p class="text-error">Your account does not currently have an active support plan.</p><p>In order to open a new support request you must purchase a new support plan.</p><p>Click Next to purchase support.</p>

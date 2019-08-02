@@ -1,0 +1,40 @@
+{% extends 'layout_2_column_wide_left' %}
+
+{% block main %}
+
+<div class="page-copy">
+ <form method="GET" action="/search/" role="search" class="form-search">
+  <input type="hidden" name="logicalNames" value="knowledgearticle" />
+  <div class="input-group">
+    <label for="q" class="sr-only">
+      Search
+    </label>
+    <input type="text" class="form-control" id="q" name="q" placeholder="Enter search term" title="Search">
+    <div class="input-group-btn">
+      <button type="submit" class="btn btn-default" title="Search" aria-label="Search">
+        <span class="fa fa-search" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</form>
+  </div>
+
+  {% assign category_url = sitemarkers['Category'].url %}
+  {% assign count = count | default: 0 %}  
+  {% assign categories = knowledge.categories | top_level: count %}
+  {% if categories %}
+    <div style="display: flex; flex-wrap: wrap;">
+    {% for category in categories %}
+
+  <div style="width: 32%; margin: 10px 10px 10px 0;">
+    <a href="{{ category_url | add_query: 'id', category.categorynumber }}" class="btn btn-action-home btn-lg-home">{{ category.title }}</a>
+  </div>
+
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block aside %}
+    {% include 'Knowledge Management - Most Popular Articles' %}
+{% endblock %}

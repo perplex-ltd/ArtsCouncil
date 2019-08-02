@@ -1,0 +1,40 @@
+{% extends 'layout_2_column_wide_left' %}
+
+{% block main %}
+  {% include 'Page Copy' %}
+
+{{ now | date_to_iso8601 }}
+<form action="/services/manageBookmarks" method="get">
+
+<input type="text" name="articleid" value="08d8ca0a-fba2-e911-a97b-00224801377b" />
+<br />
+<input type="text" name="action" value="add" />
+<br />
+<input type="submit" />
+
+</form>
+
+{% endblock %}
+
+{% block aside %}
+
+    <div class="sidebar">
+        <div class="content-panel panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                Hello
+                </h4>
+            </div>
+
+            <div class="panel-body">
+                <div>  
+{% include 'DCN Bookmark article' articlenumber: 'KA-01001' %}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

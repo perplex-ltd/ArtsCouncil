@@ -1,0 +1,25 @@
+{% if user %}
+  {% assign forum_thread_subscription_count = subscription_count | default: 5 %}
+  {% assign threads = user.forum_thread_subscriptions | paginate: 0,forum_thread_subscription_count %}
+  <h3>{% editable snippets 'My Subscriptions Heading' type: 'text', default: resx['My_Subscriptions_Heading'], escape: true %}</h3>
+  {% if threads.size > 0 %}
+    {% for thread in threads %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title">
+          <a class="title" href="{{ thread.url | escape }}">{{ thread.name | escape }}</a>
+        </div>
+      </div>
+      <div class="list-group">
+        {{ thread.first_post.content | strip_html | truncate: 100 }}
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="panel panel-default">
+      <div class="list-group">
+        {{ resx['No_Items_To_Display'] | escape }}
+      </div>
+    </div>
+  {% endif %}
+{% endif %}

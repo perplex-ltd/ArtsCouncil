@@ -1,0 +1,46 @@
+{% assign articlenumber = articlenumber  %}
+{% comment %}Usage: {% include 'DCN Bookmark article' articlenumber: 'KA-01001' %}{% endcomment %}
+{% if articlenumber and user.id %}
+    {% fetchxml articleid_query %}
+        <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true" >
+          <entity name="knowledgearticle" >
+            <attribute name="knowledgearticleid" />
+            <attribute name="title" />
+            <filter type="and" >
+              <condition attribute="articlepublicnumber" operator="eq" value="{{ articlenumber | escape }}" />
+              <condition attribute="isrootarticle" operator="eq" value="0" />
+              <condition attribute="isinternal" operator="eq" value="0" />
+            </filter>
+          </entity>
+        </fetch>
+    {% endfetchxml %}
+    {% if articleid_query.results.entities.size == 1 %}
+        {% assign articleid = articleid_query.results.entities[0].knowledgearticleid %}
+        {% fetchxml bookmark_query %}
+            <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true" >
+              <entity name="ace_bookmark" >
+                <attribute name="ace_name" />
+                <filter type="and" >
+                  <condition attribute="ace_article" operator="eq" value="{{ articleid }}" />
+                  <condition attribute="ace_portaluser" operator="eq" value="{{ user.id }}" />
+                  <!--condition attribute="createdon" operator="le" value='{{ "today" | date: "yyyy-MM-dd HH:mm:ss" }}' /-->
+                </filter>
+              </entity>
+            </fetch>
+        {% endfetchxml %}
+        {% if bookmark_query.results.entities.size > 0 %}
+           {% assign display_remove_bookmark = 'block' %}
+           {% assign display_add_bookmark = 'none' %}
+        {% else %}
+           {% assign display_remove_bookmark = 'none' %}
+           {% assign display_add_bookmark = 'block' %}
+        {% endif %}
+        {% assign knowledge_url = sitemarkers['Knowledge'].url %}
+        <div id="bookmark_on{{ articleid }}" style="display: {{ display_remove_bookmark }}">
+            <img src="{{ knowledge_url }}bookmark_checked.png" onclick="dcn.manageBookmarks.remove('{{ articleid }}')" class="ace-button"/>
+        </div>  
+        <div id="bookmark_off{{ articleid }}" style="display: {{ display_add_bookmark }}">
+            <img src="{{ knowledge_url }}bookmark.png" onclick="dcn.manageBookmarks.add('{{ articleid }}')" class="ace-button"/>
+        </div>  
+    {% endif %}
+{% endif %}

@@ -1,0 +1,1 @@
+{% assign title = pagetitle %}<div class="page-header"> <h1>{% if title %}{{ title | h }}{% elsif page.title == "" %}{% editable page 'adx_title' type: 'html', liquid: true %}{% else %}{% editable page 'adx_name' type: 'html', liquid: true %}{% endif %}{% block title %}{% endblock %}</h1></div>

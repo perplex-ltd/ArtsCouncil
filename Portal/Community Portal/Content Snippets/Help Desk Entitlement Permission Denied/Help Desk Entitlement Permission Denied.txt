@@ -1,0 +1,4 @@
+<DIV class="alert alert-block alert-error">We are sorry, you do not have permission to open a new support request.</DIV>
+<P>Please contact support to setup your account with the necessary permissions.</P>
+<P>Phone: (555) 555-5555</P>
+<P>Hours: Monday to Friday 9AM - 5PM CST</P>

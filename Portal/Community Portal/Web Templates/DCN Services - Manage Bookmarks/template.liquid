@@ -1,0 +1,29 @@
+{% assign ssl = false %}
+{% if 'on' == request.params["HTTPS"] %}
+    {% assign ssl = true %}
+{% endif%}
+
+{% if request.params["REQUEST_METHOD"] == "GET" or request.params['__RequestVerificationToken'] == request.params["HTTP_VALIDATION"] or request.params['Dynamics365PortalAnalytics'] == request.params['HTTP_VALIDATION'] %}
+    {% assign language = "/" | append: request.params["ContextLanguageCode"] %}
+    {% capture portalCGIRequest %}
+    {
+        "Service": "{{ page.adx_partialurl }}",
+        "UserId": "{{ user.id | escape }}",
+        "Action": "{{ request.params['action'] | escape }}",
+        "ArticleId": "{{ request.params['articleid'] | escape }}",
+        "Time": "{{ now | date_to_iso8601 }}"
+    }
+    {% endcapture %}
+    {% fetchxml portalcgi %}
+        <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true" returntotalrecordcount="true" >
+            <entity name="ace_dcnportalcgi">
+                <filter>
+                    <condition attribute='ace_name' operator='eq' value='{{ portalCGIRequest }}' />
+                </filter>
+            </entity>
+        </fetch>
+    {% endfetchxml %}
+    {% if portalcgi.results.entities.size > 0 %}
+        {{ portalcgi.results.entities[0].ace_cgivalue }}
+    {% endif %}
+{% endif %}
