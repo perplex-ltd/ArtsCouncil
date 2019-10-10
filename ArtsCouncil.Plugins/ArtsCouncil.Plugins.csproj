@@ -74,6 +74,9 @@
   <ItemGroup>
     <Compile Include="Portal\CgiService.cs" />
     <Compile Include="Portal\ManageBookmarks.cs" />
+    <Compile Include="Portal\OnlyOneFeaturedEventPlugin.cs" />
+    <Compile Include="Portal\OnlyOneFeaturedNewsArticlePlugin.cs" />
+    <Compile Include="Portal\OnlyOneFeaturedNewsEventPlugin.cs" />
     <Compile Include="Portal\PortalCGIHandlerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UpdateTypeOfPartnershipPlugin.cs" />

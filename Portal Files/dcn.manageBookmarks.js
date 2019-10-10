@@ -1,25 +1,40 @@
-var dcn = dcn || {};
-dcn.manageBookmarks = function() {
+if (typeof (dcn) == "undefined") {
+    dcn = { __namespace: true };
+}
+dcn.manageBookmarks = {
 
-    var add = function(articleId) {
-        manageBookmark("add", articleId).then(function() {
+    add: function(articleId) {
+        _manageBookmark("add", articleId).then(function() {
             $("#bookmark_off" + articleId).hide();
             $("#bookmark_on" + articleId).show()
         }); 
-    };
-    var remove = function(articleId) {
-        manageBookmark("remove", articleId).then(function() {
+    },
+    remove: function(articleId) {
+        _manageBookmark("remove", articleId).then(function() {
             $("#bookmark_on" + articleId).hide();
             $("#bookmark_off" + articleId).show()
         }); 
-    };
+    },
 
-    var manageBookmark = function(action, articleId) {
+    _manageBookmark: function(action, articleId) {
         return  $.getJSON( "/services/manageBookmarks/?action=" + action + "&articleid=" + articleId );
-    };
+    }
+};
 
-    return {
-        add: add, //dcn.manageBookmarks.add(articleId)
-        remove: remove //dcn.manageBookmarks.remove(articleId)
-    };
-}();
+dcn.actions = {
+    delete: function(id, entityName, websiteId) {
+        var entityReference = {
+            LogicalName: entityName,
+            Id: id.replace("{", "").replace("}", "")
+        };
+        
+        var myrequest = {
+            type: "POST", 
+            contentType: "application/json",
+            url: "/_services/entity-grid-delete/" + websiteId,
+            data: JSON.stringify(entityReference)
+        }
+        var promise = shell.ajaxSafePost(myrequest);
+        return promise;
+    }
+};

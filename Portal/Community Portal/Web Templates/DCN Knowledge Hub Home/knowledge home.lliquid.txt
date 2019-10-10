@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="page-heading">
+    {% block breadcrumbs %}
+      {% include 'Breadcrumbs' %}
+    {% endblock %}
+ </div>
+
+
+<div class="row">
+    <div class="col-md-12">
+    <div class="page-copy">
+     <form method="GET" action="/search/" role="search" class="form-search">
+      <input type="hidden" name="logicalNames" value="knowledgearticle" />
+      <div class="input-group">
+        <label for="q" class="sr-only">
+          Search
+        </label>
+        <input type="text" class="form-control" id="q" name="q" placeholder="Enter search term" title="Search">
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default" title="Search" aria-label="Search">
+            <span class="fa fa-search" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+      {% assign category_url = sitemarkers['Category'].url %}
+      {% assign count = count | default: 0 %}  
+      {% assign categories = knowledge.categories | top_level: count %}
+      {% if categories %}
+        <div class="list-group unstyled">
+        {% for category in categories %}
+          <a href="{{ category_url | add_query: 'id', category.categorynumber }}" class="list-group-item">
+            {{ category.title }}
+          </a>
+        {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+</div>
+
