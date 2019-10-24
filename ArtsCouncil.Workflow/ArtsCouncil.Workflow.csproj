@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FindContactByEmail.cs" />
     <Compile Include="AddContactToEmailSend.cs" />
     <Compile Include="BaseWorkflowActivity.cs" />
     <Compile Include="ConvertPostedFormToWebEnquiry.cs" />
