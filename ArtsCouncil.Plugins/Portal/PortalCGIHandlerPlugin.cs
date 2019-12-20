@@ -144,6 +144,7 @@ namespace ArtsCouncil.Plugins.Portal
         static PortalCGIHandlerPlugin()
         {
             cgiServices.Add("manageBookmarks", typeof(ManageBookmarks));
+            cgiServices.Add("subscribeToNewsletter", typeof(SubscribeToNewsletter));
         }
         #endregion
     }
