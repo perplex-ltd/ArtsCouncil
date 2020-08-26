@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IncludeHierarchyPlugin.cs" />
     <Compile Include="Portal\CgiService.cs" />
     <Compile Include="Portal\SubscribeToNewsletter.cs" />
     <Compile Include="Portal\ManageBookmarks.cs" />

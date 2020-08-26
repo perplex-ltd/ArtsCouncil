@@ -262,3 +262,5 @@ __pycache__/
 /MPImport
 /Perplex.ArtsCouncil.MPImport
 /Perplex.DataServices.Framework
+.Rproj.user
+/DeDupR

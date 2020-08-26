@@ -3,10 +3,10 @@ ace.organisationForm = function() {
 
     var setupProjectsGrid = function(executionContext) {
         var NAME_SGPROJECTS = "sgProjects";
-        //You need the code below because using SetParameter in formContext.getControl("Credit_Performance") will not work.
+        //You need the code below because using SetParameter in formContext.getControl("controlname") will not work.
         var subGrid = window.parent.document.getElementById(NAME_SGPROJECTS);
         if (subGrid == null || subGrid.control == null) {
-            setTimeout( () => { setupProjectsGrid(executionContext)}, 1000);
+            setTimeout( () => { setupProjectsGrid(executionContext)}, 683);
             return;
         }
 
@@ -39,6 +39,36 @@ ace.organisationForm = function() {
 
     };
 
+    var setupContactsGrid = function(executionContext) {
+        //You need the code below because using SetParameter in formContext.getControl("controlname") will not work.
+        var subGrid = window.parent.document.getElementById("subgridContacts");
+        if (subGrid == null || subGrid.control == null) {
+            setTimeout( () => { setupContactsGrid(executionContext)}, 647);
+            return;
+        }
+
+        var formContext = executionContext.getFormContext();
+        var accountId = formContext.data.entity.getId();
+        var fetchXml = 
+        '<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">' +
+        '  <entity name="contact">' +
+        '    <attribute name="fullname" />' +
+        '    <attribute name="parentcustomerid" />' +
+        '    <attribute name="emailaddress1" />' +
+        '    <attribute name="jobtitle" />' +
+        '    <attribute name="contactid" />' +
+        '    <order attribute="fullname" descending="false" />' +
+        '    <filter type="and">' +
+        '      <condition attribute="statecode" operator="eq" value="0" />' +
+        '    </filter>' +
+        '  </entity>' +
+        '</fetch>';
+        subGrid.control.SetParameter("fetchXml", fetchXml);
+        subGrid.control.refresh();
+
+    };
+
+
     var setArenaLink = function(executionContext) {
         var formContext = executionContext.getFormContext();
         var urnAttribute = formContext.getAttribute("new_urn");
@@ -51,12 +81,14 @@ ace.organisationForm = function() {
             link = "http://arena:8004/parties-extension/organisation?party_id=" + urn + "&mode=view";
         }
         arenaLinkAttribute.setValue(link);
-    }
+    };
 
     return {
         //ace.organisationForm.setupProjectsGrid(executionContext)
         setupProjectsGrid: setupProjectsGrid,
         //ace.organisationForm.setArenaLink(executionContext)
-        setArenaLink: setArenaLink
+        setArenaLink: setArenaLink,
+        //ace.organisationForm.setupContactsGrid(executionContext)
+        setupContactsGrid: setupContactsGrid
     };
 }();
