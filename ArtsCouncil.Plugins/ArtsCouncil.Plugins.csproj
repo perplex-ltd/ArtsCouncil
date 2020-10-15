@@ -74,6 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IncludeHierarchyPlugin.cs" />
+    <Compile Include="AbstractOnlyOneActiveFlagPlugin.cs" />
+    <Compile Include="OnlyOneMainOrganisation.cs" />
     <Compile Include="Portal\CgiService.cs" />
     <Compile Include="Portal\SubscribeToNewsletter.cs" />
     <Compile Include="Portal\ManageBookmarks.cs" />
