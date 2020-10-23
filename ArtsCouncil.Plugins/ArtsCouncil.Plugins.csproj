@@ -88,6 +88,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CopyCaseResolutionFields.cs" />
     <Compile Include="UpdateAccountProjects.cs" />
+    <Compile Include="UpdateActivitySortDatePlugin.cs" />
     <Compile Include="UpdateProjectAccountsHierarchy.cs" />
     <Compile Include="UpdateTypeOfPartnershipPlugin.cs" />
   </ItemGroup>

@@ -76,6 +76,7 @@
     <Compile Include="BaseWorkflowActivity.cs" />
     <Compile Include="ConvertPostedFormToWebEnquiry.cs" />
     <Compile Include="GetEventParticipationFromId.cs" />
+    <Compile Include="GetOrganisationByEmailDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
