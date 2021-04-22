@@ -31,6 +31,7 @@ namespace ArtsCouncil.Workflow
 
         protected override void ExecuteActivity(CodeActivityContext context)
         {
+            TracingService.Trace("Hello!");
             // Extract email domain
             var orgName = OrganisationName.Get<string>(context);
             if (string.IsNullOrEmpty(orgName))
@@ -46,7 +47,7 @@ namespace ArtsCouncil.Workflow
     <attribute name='ace_mainorganisation' alias='ace_mainorganisation' groupby='true' />
     <attribute name='new_grantiumapplicantnumber' alias='new_grantiumapplicantnumber' groupby='true' />
     <filter>
-      <condition attribute='name' operator='eq' value='{OrganisationName}'/>
+      <condition attribute='name' operator='eq' value='{orgName}'/>
       <condition attribute='statecode' operator='eq' value='0'/>
     </filter>
     <link-entity name='contact' from='parentcustomerid' to='accountid' link-type='outer' alias='c'>
@@ -55,6 +56,7 @@ namespace ArtsCouncil.Workflow
     </link-entity>
   </entity>
 </fetch>";
+            TracingService.Trace(fetchXml);
             var result = Service.RetrieveMultiple(new FetchExpression(fetchXml));
             TracingService.Trace("Got {0} organisations...", result.TotalRecordCount);
             if (result.TotalRecordCount > 0 && result.TotalRecordCount <= 10) 

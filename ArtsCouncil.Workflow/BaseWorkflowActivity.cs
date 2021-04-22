@@ -29,6 +29,7 @@ namespace ArtsCouncil.Workflow
             Service = serviceFactory.CreateOrganizationService(wfContext.InitiatingUserId);
             try
             {
+                TracingService.Trace("Hi, it's me, {0}!", GetType().FullName);
                 ExecuteActivity(context);   
             } catch (Exception ex) {
                 TracingService.Trace("Unexpected error: {0} ({1})", ex.Message, ex);
