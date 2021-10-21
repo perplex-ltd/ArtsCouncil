@@ -1,0 +1,77 @@
+
+.ArtsCouncil\.EventRegistrationGrid  .container{
+    width: 100%;
+    position: relative;
+    min-height: 300px;  
+    padding-left: 22px;
+}
+
+.ArtsCouncil\.EventRegistrationGrid  .gridContainer{
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+    position: relative;
+}
+
+
+.ArtsCouncil\.EventRegistrationGrid  .ColorfulCell{
+    overflow: hidden;
+    padding-top: 3px;
+    padding-left: 4px;
+    padding-bottom: 3px;
+    height:20px;
+ /*   display: inline;*/
+    font-family: 'SegoeUI', 'Segoe UI';
+   /* font-size: medium;
+    font-weight: 600;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;    */
+}
+ 
+.ArtsCouncil\.EventRegistrationGrid  .Footer{
+    height: 32px;
+    width: 100%;    
+    padding-top: 3px;
+    margin-left: 10px;   
+    color: "#333";
+    font-size: 11px;
+    border-top: 1px solid #edebe9;    
+}
+
+.ArtsCouncil\.EventRegistrationGrid  .FooterRight{
+   text-align: right; 
+   margin-right:10px;
+}
+
+.ArtsCouncil\.EventRegistrationGrid  .FooterIcon i{
+    color: #333333;
+    font-size: 11px;
+}
+
+
+
+.ArtsCouncil\.EventRegistrationGrid  .colorIcon{      
+        font-weight: 600;
+        vertical-align: baseline;     
+}
+
+.ArtsCouncil\.EventRegistrationGrid  div{
+    font-weight: normal;
+    font-size: 15px;
+    vertical-align: baseline;
+}
+
+.ArtsCouncil\.EventRegistrationGrid  .ColorfulCell span{
+    font-weight: normal;
+    font-size: 15px;
+    vertical-align: baseline;
+   text-overflow: ellipsis;
+}
+
+.ArtsCouncil\.EventRegistrationGrid .actionBar{
+    width: 100%;
+    text-align: right;
+    font-size: 20px;
+   
+}
