@@ -45,7 +45,7 @@ ace.strategicSupportForm = function() {
         ace_solutionprocured: "ace_solutionprocuredon",
         ace_stafftraining: "ace_stafftrainingcompletedon",
         ace_vendorassessmentcomplete: "ace_vendorassessmentcompletedon",
-        ace_vendorassessmentsignedoffbyace: "ace_vendorassessmentsignedoffbyaceon"    
+        ace_vendorassessmentsignedoffbyace: "ace_vendorassessmentsignedoffbyaceon"       
     };
 
 
@@ -62,10 +62,23 @@ ace.strategicSupportForm = function() {
         targetAttribute.setValue(targetValue);
     };
 
+    var progressPercentOnChange = function(executionContext) {
+        var formContext = executionContext.getFormContext();
+        var sourceAttribute = executionContext.getEventSource();
+        var targetValue = (sourceAttribute.getValue() == 805290005) ? new Date() : null;
+        var sourceFieldName = sourceAttribute.getName();
+        var targetFieldName = sourceFieldName + "completedon";
+        if (!targetFieldName) return;
+        var targetAttribute = formContext.getAttribute(targetFieldName);
+        if (!targetAttribute) return;
+        targetAttribute.setValue(targetValue);
+    }
     
 
     return {
         //ace.strategicSupportForm.progressCompletedOnChange(executionContext)
-        progressCompletedOnChange: progressCompletedOnChange
+        progressCompletedOnChange: progressCompletedOnChange,
+        //ace.strategicSupportForm.progressPercentOnChange(executionContext)
+        progressPercentOnChange: progressPercentOnChange
     };
 }();
