@@ -9,6 +9,8 @@ ace.eventsForm = function() {
         } catch (errror) {
             //ignore...
         }
+        var attendedManualField = Xrm.Page.getControl("ace_attendedmanual");
+        if (attendedManualField) attendedManualField.setDisabled(false);
     };
 
     return {
