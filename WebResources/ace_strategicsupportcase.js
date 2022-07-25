@@ -46,6 +46,24 @@ ace.strategicSupportForm = function() {
         ace_stafftraining: "ace_stafftrainingcompletedon",
         ace_vendorassessmentcomplete: "ace_vendorassessmentcompletedon",
         ace_vendorassessmentsignedoffbyace: "ace_vendorassessmentsignedoffbyaceon"       
+        ,
+        ace_technicalspecificationcompleted: "ace_technicalspecificationcompletedon",
+        ace_internalandexternalcommsplanstarted: "ace_internalandexternalcommsplanstartedon",
+        ace_riskregisterstarted: "ace_riskregisterstartedon",
+        ace_projectkpiscompleted: "ace_projectkpiscompletedon",
+        ace_implementationtimelinestarted: "ace_implementationtimelinestartedon",
+        ace_boardsignoff: "ace_boardsignoffon",
+        ace_bpsignoff: "ace_bpsignoffon",
+        ace_implementationtimelinesubmittedtobp: "ace_implementationtimelinesubmittedtobpon",
+        ace_year2supportagreed: "ace_year2supportagreedon",
+        ace_q1kpiupdated: "ace_q1kpiupdatedon",
+        ace_q1checkincallcompleted: "ace_q1checkincallcompletedon",
+        ace_q2kpiupdated: "ace_q2kpiupdatedon",
+        ace_q2checkincallcompleted: "ace_q2checkincallcompletedon",
+        ace_q3kpiupdated: "ace_q3kpiupdatedon",
+        ace_q3checkincallcompleted: "ace_q3checkincallcompletedon",
+        ace_q4kpiupdated: "ace_q4kpiupdatedon",
+        ace_q4checkincallcompleted: "ace_q4checkincallcompletedon"
     };
 
 
