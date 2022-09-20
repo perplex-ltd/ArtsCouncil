@@ -63,7 +63,9 @@ ace.strategicSupportForm = function() {
         ace_q3kpiupdated: "ace_q3kpiupdatedon",
         ace_q3checkincallcompleted: "ace_q3checkincallcompletedon",
         ace_q4kpiupdated: "ace_q4kpiupdatedon",
-        ace_q4checkincallcompleted: "ace_q4checkincallcompletedon"
+        ace_q4checkincallcompleted: "ace_q4checkincallcompletedon",
+        ace_fellowsupportplancompleted: "ace_fellowsupportplancompletedon",
+        ace_fellowsupportplanreevaluated: "ace_fellowsupportplanreevaluatedon"
     };
 
 
@@ -90,13 +92,56 @@ ace.strategicSupportForm = function() {
         var targetAttribute = formContext.getAttribute(targetFieldName);
         if (!targetAttribute) return;
         targetAttribute.setValue(targetValue);
-    }
+    };
+
+    var registerOnChangeEvent = function(executionContext, completedField, dateField) {
+        console.log(completedField, dateField);
+        var formContext = executionContext.getFormContext();
+        var attribute = formContext.getAttribute(dateField);
+        var targetField = formContext.getAttribute(completedField);
+        if (attribute && targetField) {
+            attribute.addOnChange(ec => {
+                if(ec.getEventSource().getValue()) {
+                    targetField.setValue(805290000);
+                }
+            });
+        }
+    };
+
+    var formLoad = function(executionContext) {
+        // register on change events for all date fields that have a corresponding "completed" field
+        Object.entries(dateFields).forEach(
+            ([completed, date]) => registerOnChangeEvent(executionContext, completed, date)
+            );
+        // register on change events for all date fields with a corresponding 100% field
+        debugger;
+        let formContext = executionContext.getFormContext();
+        formContext.data.entity.attributes.forEach((t,n) => {
+            if (t.getName().endsWith("completedon") && t.getAttributeType() == "datetime"&&
+                Object.values(dateFields).indexOf(t.getName()) == -1) {
+                let targetFieldName = t.getName().substring(0, t.getName().length - "completedon".length)
+                let targetField = formContext.getAttribute(targetFieldName);
+                if (targetField) {
+                    let opts = targetField.getOptions();
+                    if (opts.length == 6 && opts[5].text == "100%" && opts[5].value == 805290005) { 
+                        t.addOnChange(ec => {
+                            if(ec.getEventSource().getValue()) {
+                                targetField.setValue(805290005);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    };
     
 
     return {
         //ace.strategicSupportForm.progressCompletedOnChange(executionContext)
         progressCompletedOnChange: progressCompletedOnChange,
         //ace.strategicSupportForm.progressPercentOnChange(executionContext)
-        progressPercentOnChange: progressPercentOnChange
+        progressPercentOnChange: progressPercentOnChange,
+        //ace.strategicSupportForm.formLoad(executionContext)
+        formLoad: formLoad,
     };
 }();
