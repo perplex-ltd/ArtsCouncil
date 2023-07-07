@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ArtsCouncil.Plugins")]
-[assembly: AssemblyCopyright("Copyright © Perplex Ltd 2019")]
+[assembly: AssemblyCopyright("Copyright © Perplex Ltd 2019-2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

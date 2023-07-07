@@ -2,7 +2,7 @@
 using System.Activities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.Security;
 using Microsoft.Crm.Sdk.Messages;
 
 using Microsoft.Xrm.Sdk;
@@ -47,7 +47,7 @@ namespace ArtsCouncil.Workflow
     <attribute name='ace_mainorganisation' alias='ace_mainorganisation' groupby='true' />
     <attribute name='new_grantiumapplicantnumber' alias='new_grantiumapplicantnumber' groupby='true' />
     <filter>
-      <condition attribute='name' operator='eq' value='{orgName}'/>
+      <condition attribute='name' operator='eq' value='{SecurityElement.Escape(orgName)}'/>
       <condition attribute='statecode' operator='eq' value='0'/>
     </filter>
     <link-entity name='contact' from='parentcustomerid' to='accountid' link-type='outer' alias='c'>

@@ -4,16 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{623BF453-74F1-4EA3-A1D0-34ABED722CCF}</ProjectGuid>
+    <ProjectGuid>{7E37EEFB-D214-4BCD-89F7-2D684EBE4B0F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArtsCouncil.Plugins</RootNamespace>
-    <AssemblyName>ArtsCouncil.Plugins</AssemblyName>
+    <RootNamespace>ArtsCouncil.Workflow</RootNamespace>
+    <AssemblyName>ArtsCouncil.Workflow</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,21 +35,22 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>perplex.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>Perplex.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.12\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.4\lib\net452\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.12\lib\net462\Microsoft.Xrm.Sdk.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.4\lib\net452\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk.Workflow, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.Workflow.9.0.2.9\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Presentation" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
@@ -61,6 +60,9 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Workflow.Activities" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Workflow.Runtime" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,54 +71,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IncludeHierarchyPlugin.cs" />
-    <Compile Include="AbstractOnlyOneActiveFlagPlugin.cs" />
-    <Compile Include="OnlyOneMainOrganisation.cs" />
-    <Compile Include="Portal\CgiService.cs" />
-    <Compile Include="Portal\SubscribeToNewsletter.cs" />
-    <Compile Include="Portal\ManageBookmarks.cs" />
-    <Compile Include="Portal\OnlyOneFeaturedEventPlugin.cs" />
-    <Compile Include="Portal\OnlyOneFeaturedNewsArticlePlugin.cs" />
-    <Compile Include="Portal\OnlyOneFeaturedNewsEventPlugin.cs" />
-    <Compile Include="Portal\PortalCGIHandlerPlugin.cs" />
-    <Compile Include="Portal\UpdateArticlePublicNumberPlugin.cs" />
-    <Compile Include="ProjectAccountRelationshipManager.cs" />
+    <Compile Include="FindContactByEmail.cs" />
+    <Compile Include="AddContactToEmailSend.cs" />
+    <Compile Include="BaseWorkflowActivity.cs" />
+    <Compile Include="ConvertPostedFormToWebEnquiry.cs" />
+    <Compile Include="GetEventParticipationFromId.cs" />
+    <Compile Include="GetOrganisationByName.cs" />
+    <Compile Include="GetOrganisationByEmailDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CopyCaseResolutionFields.cs" />
-    <Compile Include="UpdateAccountProjects.cs" />
-    <Compile Include="CapitaliseNamesPlugin.cs" />
-    <Compile Include="UpdateActivitySortDatePlugin.cs" />
-    <Compile Include="UpdateProjectAccountsHierarchy.cs" />
-    <Compile Include="UpdateTypeOfPartnershipPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Perplex.pfx" />
-    <None Include="perplex.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="ILMerge">
-      <Version>3.0.41</Version>
-    </PackageReference>
-    <PackageReference Include="ILMerge.MSBuild.Task">
-      <Version>1.0.7</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies">
-      <Version>9.0.2.49</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.5.0</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>echo if not exist "$(TargetDir)ilm" mkdir "$(TargetDir)ilm"
-echo $(SolutionDir)packages\ILMerge.3.0.29\tools\net452\ilmerge /out:$(TargetDir)ilm\$(TargetName).dll $(TargetDir)$(TargetFileName) $(TargetDir)Newtonsoft.Json.dll /keyfile:$(ProjectDir)\perplex.snk</PostBuildEvent>
-  </PropertyGroup>
 </Project>

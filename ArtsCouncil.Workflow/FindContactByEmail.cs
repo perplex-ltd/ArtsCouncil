@@ -37,6 +37,7 @@ namespace ArtsCouncil.Workflow
 
             try { 
                 string emailAddress = EmailAddress.Get(context);
+                emailAddress = System.Security.SecurityElement.Escape(emailAddress);
                 var fetchXml = $@"
 <fetch top='1'>
   <entity name='contact'>

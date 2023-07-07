@@ -66,6 +66,20 @@ ace.strategicSupportForm = function() {
         ace_q4checkincallcompleted: "ace_q4checkincallcompletedon",
         ace_fellowsupportplancompleted: "ace_fellowsupportplancompletedon",
         ace_fellowsupportplanreevaluated: "ace_fellowsupportplanreevaluatedon"
+        ,
+        ace_discoverystarted: "ace_discoverycompletedon",
+        ace_requirementsdesignstarted: "ace_requirementsdesigncompletedon",
+        ace_hiringstarted: "ace_hiringcompletedon",
+        ace_developmentstarted: "ace_developmentcompletedon",
+        ace_installationstarted: "ace_installationcompletedon",
+        ace_testingstarted: "ace_testingcompletedon",
+        ace_firstlaunchcompleted: "ace_launchcompletedon",
+        ace_interimreportsubmittedstatus: "ace_interimreportsubmittedon",
+        ace_afteractionreviewretrospectivestarted: "ace_afteractionreviewcompletedon",
+        ace_finalreportsubmittedstatus: "ace_finalreportsubmittedon",
+        ace_digitalcapacitysurvey3completed: "ace_digitalcapacitysurvey3completedon"
+
+
     };
 
 
