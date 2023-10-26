@@ -71,7 +71,25 @@ export const App: React.FunctionComponent = () => {
 
   const loadTechChampionsPromise: Promise<IPersonaProps[]> = new Promise<IPersonaProps[]>(function (resolve) {
     if (Xrm) {
-      Xrm.WebApi.online.retrieveMultipleRecords("systemuser", "?$select=fullname,systemuserid&$filter=contains(title, 'Tech%20Champion') and  isdisabled eq false&$orderby=fullname asc").then(
+      const fetchXml = `
+      <fetch>
+  <entity name="systemuser">
+    <attribute name="fullname" />
+    <attribute name="systemuserid" />
+    <filter>
+      <condition attribute="isdisabled" operator="eq" value="0" />
+      <condition entityname="t" attribute="name" operator="eq" value="Digital Culture Network" />
+    </filter>
+    <order attribute="fullname" />
+    <link-entity name="teammembership" from="systemuserid" to="systemuserid" link-type="inner" alias="tm" intersect="true">
+      <link-entity name="team" from="teamid" to="teamid" link-type="inner" alias="t" intersect="true">
+        <attribute name="name" />
+      </link-entity>
+    </link-entity>
+  </entity>
+</fetch>`;
+      //Xrm.WebApi.online.retrieveMultipleRecords("systemuser", "?$select=fullname,systemuserid&$filter=contains(title, 'Tech%20Champion') and  isdisabled eq false&$orderby=fullname asc").then(
+      Xrm.WebApi.online.retrieveMultipleRecords("systemuser", "?fetchXml=" + fetchXml).then(
         function success(results) {
           let people = [];
           for (var i = 0; i < results.entities.length; i++) {

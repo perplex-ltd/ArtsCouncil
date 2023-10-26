@@ -87,7 +87,7 @@ ace.strategicSupportForm = function() {
     var progressCompletedOnChange = function(executionContext) {
         var formContext = executionContext.getFormContext();
         var sourceAttribute = executionContext.getEventSource();
-        var targetValue = (sourceAttribute.getValue() == 805290000) ? new Date() : null;
+        var targetValue = (sourceAttribute.getValue()) ? new Date() : null;
         var sourceFieldName = sourceAttribute.getName();
         var targetFieldName = dateFields[sourceFieldName];
         if (!targetFieldName) return;
