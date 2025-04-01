@@ -1,0 +1,86 @@
+
+
+
+.defaultContentCont{
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.dragDropCont{
+    height:150px;
+    width:99%;
+    position: relative;
+    display:flex;
+    border:2px dashed 	#D3D3D3;
+    padding:5px;
+    color:  rgb(68, 68, 68);
+    font-family: 'SegoeUI-Semibold', 'Segoe UI Semibold', 'Segoe UI Regular', 'Segoe UI';
+  }
+  
+  .dropZoneCont{
+  
+    /*display:flex;*/
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+  }
+  
+ 
+  
+  .filesStatsCont{
+    
+    /*
+    width: 100%;
+    height: 100%;
+    
+   /* display: flex;
+     flex-flow: column;
+     */
+     align-items: center;
+     justify-content: center;
+     background-color: rgba(0,0,0,0.5);
+     /*z-index: 999;*/
+/*
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: white;
+     font-size: 18px;
+     z-index: 10; /* Ensure it's on top of other elements */
+   }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 10; /* Ensure it's on top of other elements */
+}
+   
+  
+ 
+  
+  .uploadStatusText{
+    color:white;
+    font-weight: 500;
+    margin:5px 0px;
+  }
+  
+  .uploadImgDD{
+    width: 44px;
+    height: 44px;
+  }

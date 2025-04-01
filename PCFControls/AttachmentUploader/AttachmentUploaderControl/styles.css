@@ -1,0 +1,89 @@
+.ac-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  border: 0px solid ;
+  overflow: hidden;
+  font-family:"Segoe UI Regular", "Segoe UI";
+  font-size: 12px;
+  max-height:100%;
+  
+}
+.upload {
+  width: 130px;
+  height: 100%;
+  background-color: #f0f0f0;
+  border-right: 1px solid #000;
+  border:2px dashed 	#D3D3D3;
+  padding:5px;
+  color:  rgb(68, 68, 68);
+  font-family: 'SegoeUI-Semibold', 'Segoe UI Semibold', 'Segoe UI Regular', 'Segoe UI';
+  text-align: center;
+}
+.attachment-list {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  text-align: left;
+  max-height: 116px;
+  width: calc(100% - 120px);
+  
+}
+.file {
+  margin: 0px 2px 2px 0px;
+  width: 200px;
+  height: 62px; /* Half of 150px for two divs on top of each other */
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: #f0f0f0; /* Optional background color */
+  border: 1px solid #ccc; /* Optional border */
+  padding: 10px; /* Optional padding for each item */
+  position: relative; /* For positioning the X icon */
+  align-items: start;
+  align-content: center;
+}
+
+.file-icon {
+  width: 26px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.file-info {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px;
+  overflow: hidden;
+}
+.file-name {
+  display: block;
+  font-size: 12px;
+  width: 147px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.file-size {
+  display: block;
+  font-size: 10px;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.remove-icon {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  width: 10px;
+  height: 10px;
+  text-align: center;
+  line-height: 10px;
+  font-size: 10px;
+  cursor: pointer;
+}
+.remove-button {
+  border: 0;
+  background-color: rgba(0,0,0,0);
+}
+
+

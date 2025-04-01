@@ -149,6 +149,12 @@ ace.strategicSupportForm = function() {
         });
     };
     
+    var latestProjectStatus_onChange = function(executionContext) {
+        var formContext = executionContext.getFormContext();
+        var targetAttribute = formContext.getAttribute("ace_projectstatuslastupdatedon");
+        if (!targetAttribute) return;
+        targetAttribute.setValue(new Date());
+    }
 
     return {
         //ace.strategicSupportForm.progressCompletedOnChange(executionContext)
@@ -157,5 +163,7 @@ ace.strategicSupportForm = function() {
         progressPercentOnChange: progressPercentOnChange,
         //ace.strategicSupportForm.formLoad(executionContext)
         formLoad: formLoad,
+        //ace.strategicSupportForm.latestProjectStatus_onChange(ec)
+        latestProjectStatus_onChange: latestProjectStatus_onChange,
     };
 }();
